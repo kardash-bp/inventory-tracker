@@ -26,21 +26,37 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
+const http_1 = __importDefault(require("http"));
 const dotenv = __importStar(require("dotenv"));
-const helmet_1 = __importDefault(require("helmet"));
-const cors_1 = __importDefault(require("cors"));
-const morgan_1 = __importDefault(require("morgan"));
 dotenv.config();
-const app = (0, express_1.default)();
 require("./db");
-app.use((0, cors_1.default)());
-app.use((0, helmet_1.default)());
-app.use((0, morgan_1.default)('dev'));
-app.get('/', (req, res) => {
-    res.send('test');
-});
+const app_1 = __importDefault(require("./app"));
+const errorHandler_1 = require("./errors/errorHandler");
+const notFound_1 = __importDefault(require("./errors/notFound"));
 const port = process.env.PORT || 4001;
-app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
+const server = http_1.default.createServer(app_1.default);
+//! errors handling ==================================
+// process.on('uncaughtException', function (err: Error) {
+//   // Handle the error safely
+//   console.log(err.message)
+//   shutDownServer(server)
+// })
+// process.on('unhandledRejection', (reason, promise) => {
+//   console.log(reason)
+//   console.log(promise)
+//   shutDownServer(server)
+// })
+app_1.default.use((err, req, res, next) => {
+    console.log('Error encountered:', err.message || err);
+    next(err);
+});
+app_1.default.use((err, req, res, next) => {
+    console.log(err.isOperational);
+    console.log(process.exitCode);
+    errorHandler_1.errorHandler.handleError(err, res);
+});
+app_1.default.use(notFound_1.default);
+//=============================================================
+server.listen(port, () => {
+    console.log(`[server]: CORS enabled server is running at https://localhost:${port}`);
 });

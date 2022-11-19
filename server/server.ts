@@ -1,20 +1,42 @@
-import express from 'express'
+import http from 'http'
+import express, { NextFunction, Request, Response } from 'express'
+
 import * as dotenv from 'dotenv'
-import helmet from 'helmet'
-import cors from 'cors'
-import morgan from 'morgan'
 dotenv.config()
-const app = express()
 import './db'
-
-app.use(cors())
-app.use(helmet())
-app.use(morgan('dev'))
-
-app.get('/', (req, res) => {
-  res.send('test')
-})
+import app from './app'
+import { AppError, errorHandler } from './errors/errorHandler'
+import notFound from './errors/notFound'
+import { shutDownServer } from './utils/shutDownServer'
 const port = process.env.PORT || 4001
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`)
+
+const server = http.createServer(app)
+//! errors handling ==================================
+// process.on('uncaughtException', function (err: Error) {
+//   // Handle the error safely
+//   console.log(err.message)
+//   shutDownServer(server)
+// })
+// process.on('unhandledRejection', (reason, promise) => {
+//   console.log(reason)
+//   console.log(promise)
+//   shutDownServer(server)
+// })
+app.use((err: AppError, req: Request, res: Response, next: NextFunction) => {
+  console.log('Error encountered:', err.message || err)
+
+  next(err)
+})
+app.use((err: AppError, req: Request, res: Response, next: NextFunction) => {
+  console.log(err.isOperational)
+  console.log(process.exitCode)
+  errorHandler.handleError(err, res)
+})
+
+app.use(notFound)
+//=============================================================
+server.listen(port, () => {
+  console.log(
+    `[server]: CORS enabled server is running at https://localhost:${port}`
+  )
 })

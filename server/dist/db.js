@@ -13,7 +13,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
-console.log(process.env.MONGO_API_KEY);
 class Database {
     constructor() {
         this.connect();
@@ -29,6 +28,7 @@ class Database {
             }
             catch (err) {
                 console.log(`error: ${err.message}`);
+                throw new Error(err.message);
             }
         });
     }

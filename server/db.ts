@@ -1,5 +1,4 @@
 import mongoose from 'mongoose'
-console.log(process.env.MONGO_API_KEY)
 
 class Database {
   constructor() {
@@ -14,6 +13,7 @@ class Database {
       console.log(`MongoDB connected ${conn.connection.host}`)
     } catch (err: any) {
       console.log(`error: ${err.message}`)
+      throw new Error(err.message)
     }
   }
 }
