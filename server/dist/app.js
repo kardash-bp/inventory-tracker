@@ -4,11 +4,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const path_1 = require("path");
 const helmet_1 = __importDefault(require("helmet"));
 const compression_1 = __importDefault(require("compression"));
 const cors_1 = __importDefault(require("cors"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const userRoute_1 = __importDefault(require("./routes/userRoute"));
+const productRoute_1 = __importDefault(require("./routes/productRoute"));
 const notFound_1 = __importDefault(require("./errors/notFound"));
 const app = (0, express_1.default)();
 const errorHandler_1 = require("./errors/errorHandler");
@@ -21,7 +23,9 @@ app.use((0, compression_1.default)());
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
 app.use(logger_1.logger);
+app.use('/uploads', express_1.default.static((0, path_1.join)(__dirname, 'uploads')));
 app.use('/v1/users', userRoute_1.default);
+app.use('/v1/products', productRoute_1.default);
 app.use('/', (req, res) => {
     res.send('Home route');
 });

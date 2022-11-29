@@ -2,16 +2,17 @@ import { NextFunction, Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
 import { HttpCode } from '../errors/errorHandler'
 import { AppError } from '../errors/errorHandler'
-import User, { IUser, IUserMethod } from '../models/userModel'
+import User, { IUser, IUserMethod, UserModel } from '../models/userModel'
 import { asyncWrapper } from './asyncWrapper'
 
-export const auth = asyncWrapper(
+export const authToken = asyncWrapper(
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const token = req.cookies.token
+    const token = req.cookies.token || ''
+
     if (!token) {
       throw new AppError({
         name: 'unauthorized',
-        httpCode: 401,
+        httpCode: HttpCode.UNAUTHORIZED,
         description: 'Not authorized, please login.',
       })
     }
@@ -19,17 +20,20 @@ export const auth = asyncWrapper(
     if (!id) {
       throw new AppError({
         name: 'unauthenticated',
-        httpCode: 403,
+        httpCode: HttpCode.FORBIDDEN,
         description: 'Invalid token.',
       })
     }
     const user = await User.findById(id).select('-password -salt -__v')
     if (!user) {
-      res.clearCookie('token')
+      throw new AppError({
+        name: 'notFound',
+        httpCode: HttpCode.NOT_FOUND,
+        description: 'User not found.',
+      })
     }
-    // user?.toJSON()
-    res.locals.user = user
-    console.log(`res.locals.user: ${res.locals.user}`)
+    req.user = user
+    req.authenticated = !!user
     next()
   }
 )

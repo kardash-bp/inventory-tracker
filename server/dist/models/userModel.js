@@ -62,7 +62,7 @@ const UserSchema = new mongoose_1.Schema({
 });
 UserSchema.pre('save', function (next) {
     return __awaiter(this, void 0, void 0, function* () {
-        if (!this.isModified('password')) {
+        if (this.isModified('password')) {
             next();
         }
         this.salt = (0, uuid_1.v4)();

@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const productController_1 = require("../controllers/productController");
+const auth_1 = require("../utils/auth");
+const uploadFile_1 = require("../utils/uploadFile");
+const router = (0, express_1.Router)();
+router.post('/add', auth_1.authToken, uploadFile_1.upload.single('image'), productController_1.addProduct);
+router.get('/all', auth_1.authToken, productController_1.getAllProducts);
+router.get('/:proId', auth_1.authToken, productController_1.getProduct);
+router.delete('/:proId', auth_1.authToken, productController_1.delProduct);
+router.patch('/:proId', auth_1.authToken, uploadFile_1.upload.single('image'), productController_1.updateProduct);
+exports.default = router;

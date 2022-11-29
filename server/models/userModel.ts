@@ -19,7 +19,7 @@ export interface IUserMethod {
   isJSON: () => IUser
 }
 
-type UserModel = Model<IUser, {}, IUserMethod>
+export type UserModel = Model<IUser, {}, IUserMethod>
 
 const UserSchema = new Schema(
   {
@@ -69,7 +69,7 @@ const UserSchema = new Schema(
   }
 )
 UserSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) {
+  if (this.isModified('password')) {
     next()
   }
   this.salt = v4()

@@ -12,16 +12,16 @@ const port = process.env.PORT || 4001
 
 const server = http.createServer(app)
 //! errors handling ==================================
-// process.on('uncaughtException', function (err: Error) {
-//   // Handle the error safely
-//   console.log(err.message)
-//   shutDownServer(server)
-// })
-// process.on('unhandledRejection', (reason, promise) => {
-//   console.log(reason)
-//   console.log(promise)
-//   shutDownServer(server)
-// })
+process.on('uncaughtException', function (err: Error) {
+  // Handle the error safely
+  console.log(err.message)
+  shutDownServer(server)
+})
+process.on('unhandledRejection', (reason, promise) => {
+  console.log(reason)
+  console.log(promise)
+  shutDownServer(server)
+})
 app.use((err: AppError, req: Request, res: Response, next: NextFunction) => {
   console.log('Error encountered:', err.message || err)
 

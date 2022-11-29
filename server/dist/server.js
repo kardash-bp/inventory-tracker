@@ -33,19 +33,20 @@ require("./db");
 const app_1 = __importDefault(require("./app"));
 const errorHandler_1 = require("./errors/errorHandler");
 const notFound_1 = __importDefault(require("./errors/notFound"));
+const shutDownServer_1 = require("./utils/shutDownServer");
 const port = process.env.PORT || 4001;
 const server = http_1.default.createServer(app_1.default);
 //! errors handling ==================================
-// process.on('uncaughtException', function (err: Error) {
-//   // Handle the error safely
-//   console.log(err.message)
-//   shutDownServer(server)
-// })
-// process.on('unhandledRejection', (reason, promise) => {
-//   console.log(reason)
-//   console.log(promise)
-//   shutDownServer(server)
-// })
+process.on('uncaughtException', function (err) {
+    // Handle the error safely
+    console.log(err.message);
+    (0, shutDownServer_1.shutDownServer)(server);
+});
+process.on('unhandledRejection', (reason, promise) => {
+    console.log(reason);
+    console.log(promise);
+    (0, shutDownServer_1.shutDownServer)(server);
+});
 app_1.default.use((err, req, res, next) => {
     console.log('Error encountered:', err.message || err);
     next(err);

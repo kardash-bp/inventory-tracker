@@ -8,6 +8,7 @@ var HttpCode;
     HttpCode[HttpCode["NO_CONTENT"] = 204] = "NO_CONTENT";
     HttpCode[HttpCode["BAD_REQUEST"] = 400] = "BAD_REQUEST";
     HttpCode[HttpCode["UNAUTHORIZED"] = 401] = "UNAUTHORIZED";
+    HttpCode[HttpCode["FORBIDDEN"] = 403] = "FORBIDDEN";
     HttpCode[HttpCode["NOT_FOUND"] = 404] = "NOT_FOUND";
     HttpCode[HttpCode["INTERNAL_SERVER_ERROR"] = 500] = "INTERNAL_SERVER_ERROR";
 })(HttpCode = exports.HttpCode || (exports.HttpCode = {}));
@@ -48,7 +49,7 @@ class ErrorHandler {
             response.status(HttpCode.BAD_REQUEST).json({ message: error.message });
         }
         else if (response) {
-            console.log(`Response: -> ${response}`);
+            console.log(`Response critical: -> ${response.statusCode}`);
             response
                 .status(HttpCode.INTERNAL_SERVER_ERROR)
                 .json({ message: 'Internal server error' });

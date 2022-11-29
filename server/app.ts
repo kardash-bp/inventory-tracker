@@ -1,9 +1,11 @@
 import express, { NextFunction, Request, Response } from 'express'
+import { join } from 'path'
 import helmet from 'helmet'
 import compression from 'compression'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import userRouter from './routes/userRoute'
+import productRouter from './routes/productRoute'
 import notFound from './errors/notFound'
 const app = express()
 import { AppError, errorHandler, HttpCode } from './errors/errorHandler'
@@ -17,7 +19,11 @@ app.use(compression())
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(logger)
+
+app.use('/uploads', express.static(join(__dirname, 'uploads')))
+
 app.use('/v1/users', userRouter)
+app.use('/v1/products', productRouter)
 app.use('/', (req, res) => {
   res.send('Home route')
 })
