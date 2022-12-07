@@ -1,0 +1,26 @@
+{
+  "name": "inventory-tracker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "watch-client": "cd client && npm start",
+    "watch-server": "cd server && npm start",
+    "start": "concurrently -k 'npm:watch-*'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kardash-bp/inventory-tracker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kardash-bp/inventory-tracker/issues"
+  },
+  "homepage": "https://github.com/kardash-bp/inventory-tracker#readme",
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  },
+  "dependencies": {}
+}
