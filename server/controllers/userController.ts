@@ -89,7 +89,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     sameSite: 'none',
     // secure: true,
   })
-  res.status(HttpCode.OK).json(user)
+  res.status(HttpCode.CREATED).json(user)
 }
 
 export const logout = (req: Request, res: Response): void => {

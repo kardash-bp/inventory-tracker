@@ -12,7 +12,12 @@ import { AppError, errorHandler, HttpCode } from './errors/errorHandler'
 import { logger } from './utils/logger'
 //import { StatusCodes } from 'http-status-codes'
 
-app.use(cors())
+app.use(
+  cors({
+    origin: ['http://localhost:3000', 'https://inventoty-tracker.vercel.app'],
+    credentials: true,
+  })
+)
 app.use(helmet())
 app.use(cookieParser())
 app.use(compression())

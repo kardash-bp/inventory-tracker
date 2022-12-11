@@ -4,6 +4,7 @@
     "fieldname",
     "inventracker",
     "maxlength",
-    "reduxjs"
+    "reduxjs",
+    "toastify"
   ]
 }

@@ -5,7 +5,7 @@ const Header = () => {
     <div className='--pad header'>
       <div className='--flex-between'>
         <h3>
-          <span className='--fw-thin'>Welcome,</span>
+          <span className='--fw-thin'>Logged In Name: </span>
           <span className='--color-white'> Mile</span>
         </h3>
         <button className='--btn --btn-danger'>Logout</button>

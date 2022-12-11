@@ -101,7 +101,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         sameSite: 'none',
         // secure: true,
     });
-    res.status(errorHandler_1.HttpCode.OK).json(user);
+    res.status(errorHandler_1.HttpCode.CREATED).json(user);
 });
 exports.login = login;
 const logout = (req, res) => {

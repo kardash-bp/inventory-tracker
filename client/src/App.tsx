@@ -7,9 +7,15 @@ import Register from './pages/auth/Register'
 import Reset from './pages/auth/Reset'
 import Dashboard from './pages/dashboard/Dashboard'
 import Home from './pages/home/Home'
+import axios from 'axios'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
+axios.defaults.withCredentials = true
 function App() {
   return (
     <BrowserRouter>
+      <ToastContainer />
       <Routes>
         <Route path='/reset/:resetToken' element={<Reset />} />
         <Route path='/login' element={<Login />} />

@@ -35,11 +35,9 @@ const SideItem = ({ item, isOpen }: ISide) => {
         </div>
         <div className='sidebar-content'>
           {element.children.map((child, index) => (
-            <div className='s-child' key={index}>
+            <div className='sidebar-item child-item' key={index}>
               <NavLink to={child.path} className={activeLink}>
-                <div className='child-item'>
-                  <div className='sidebar-title'>{child.title}</div>
-                </div>
+                <div className='sidebar-title'>{child.title}</div>
               </NavLink>
             </div>
           ))}
@@ -49,8 +47,8 @@ const SideItem = ({ item, isOpen }: ISide) => {
   } else {
     const element = item as Item
     return (
-      <NavLink to={element.path} className={activeLink}>
-        <div className='sidebar-item'>
+      <div className='sidebar-item'>
+        <NavLink to={element.path} className={activeLink}>
           <div className='sidebar-title'>
             {' '}
             <span>
@@ -58,8 +56,8 @@ const SideItem = ({ item, isOpen }: ISide) => {
               {isOpen && <div>{item.title}</div>}
             </span>
           </div>
-        </div>
-      </NavLink>
+        </NavLink>
+      </div>
     )
   }
 }
