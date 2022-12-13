@@ -41,13 +41,15 @@ const Register = () => {
     setIsLoading(true)
     try {
       const regUser = await registerUser({ name, email, password })
-      dispatch(setLoggedIn(false))
+      setIsLoading(false)
+
       dispatch(setName(regUser.name))
-      setIsLoading(true)
+      dispatch(setLoggedIn(true))
       navigate('/dash')
     } catch (error: any) {
       setIsLoading(false)
       console.log(error.message)
+      return toast.error('Registration problem, please try again!')
     }
   }
 
