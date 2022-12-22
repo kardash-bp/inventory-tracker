@@ -3,7 +3,10 @@ import { Link } from 'react-router-dom'
 import { MdOutlineInventory } from 'react-icons/md'
 import heroImg from '../../assets/hero1.png'
 import './Home.scss'
+import { useAppSelector } from '../../redux/store'
 const Home = () => {
+  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
+
   return (
     <div className='home'>
       <nav className=' --flex-between'>
@@ -12,20 +15,26 @@ const Home = () => {
         </div>
         <ul className='home-links'>
           {' '}
-          <li>
-            {' '}
-            <Link to='/register'> Register </Link>
-          </li>
-          <li>
-            <button className='--btn --btn-primary'>
-              <Link to='/login'> Login </Link>
-            </button>
-          </li>
-          <li>
-            <button className='--btn --btn-primary'>
-              <Link to='/dash'> Dashboard </Link>
-            </button>
-          </li>
+          {!isLoggedIn && (
+            <>
+              <li>
+                {' '}
+                <Link to='/register'> Register </Link>
+              </li>
+              <li>
+                <button className='--btn --btn-primary'>
+                  <Link to='/login'> Login </Link>
+                </button>
+              </li>{' '}
+            </>
+          )}
+          {isLoggedIn && (
+            <li>
+              <button className='--btn --btn-primary'>
+                <Link to='/dash'> Dashboard </Link>
+              </button>
+            </li>
+          )}
         </ul>
       </nav>
       {/* HERO SECTION */}
@@ -44,7 +53,7 @@ const Home = () => {
           </div>
           <div className='hero-buttons'>
             <button className='--btn --btn-secondary'>
-              <Link to='/dashboard'>Free Trial 60 Days</Link>
+              <Link to='/dash'>Free Trial 60 Days</Link>
             </button>
           </div>
         </div>

@@ -31,7 +31,7 @@ const Login = () => {
       return toast.error('All fields are required!')
     }
     if (!emailValidation(email)) {
-      return toast.error('Please enter valid email!')
+      return toast.error('Please enter a valid email!')
     }
     if (password.length < 6) {
       return toast.error('Passwords must be at least 6 characters!')
@@ -44,6 +44,7 @@ const Login = () => {
 
       dispatch(setName(logUser.name))
       dispatch(setLoggedIn(true))
+      toast.success('Logged in successfully.')
       navigate('/dash')
     } catch (error: any) {
       setIsLoading(false)

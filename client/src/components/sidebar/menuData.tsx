@@ -25,7 +25,7 @@ const menu: (Item | ItemArr)[] = [
   {
     title: 'Dashboard',
     icon: <FaTh />,
-    path: '/dashboard',
+    path: '/dash',
   },
   {
     title: 'Add Product',

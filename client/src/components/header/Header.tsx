@@ -1,8 +1,9 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { store, useAppDispatch, useAppSelector } from '../../redux/store'
+import { useAppDispatch, useAppSelector } from '../../redux/store'
 import { logoutUser } from '../../services/authService'
 import { logout } from '../../redux/features/authSlice'
+import { toast } from 'react-toastify'
 
 const Header = () => {
   const name = useAppSelector((state) => state.auth.name)
@@ -13,6 +14,7 @@ const Header = () => {
     dispatch(logout(''))
     localStorage.removeItem('name')
     localStorage.removeItem('user')
+    toast.success('You have been logged out!')
     navigate('/login')
   }
   return (

@@ -1,4 +1,10 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+  Navigate,
+  Outlet,
+} from 'react-router-dom'
 import Layout from './components/layout/Layout'
 import Sidebar from './components/sidebar/Sidebar'
 import Forgot from './pages/auth/Forgot'
@@ -10,8 +16,18 @@ import Home from './pages/home/Home'
 import axios from 'axios'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { useAppSelector } from './redux/store'
 
 axios.defaults.withCredentials = true
+
+const ProtectedRoute = () => {
+  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
+  if (!isLoggedIn) {
+    return <Navigate to='/login' replace />
+  }
+  return <Outlet />
+}
+
 function App() {
   return (
     <BrowserRouter>
@@ -21,17 +37,20 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/forgot' element={<Forgot />} />
-        <Route
-          path='/dash'
-          element={
-            <Sidebar>
-              <Layout>
-                <Dashboard />
-              </Layout>
-            </Sidebar>
-          }
-        />
+        <Route element={<ProtectedRoute />}>
+          <Route
+            path='/dash'
+            element={
+              <Sidebar>
+                <Layout>
+                  <Dashboard />
+                </Layout>
+              </Sidebar>
+            }
+          />
+        </Route>
         <Route path='/' element={<Home />} />
+        <Route path='*' element={<p>There's nothing here: 404!</p>} />
       </Routes>
     </BrowserRouter>
   )

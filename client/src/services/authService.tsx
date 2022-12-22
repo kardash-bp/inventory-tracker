@@ -69,3 +69,44 @@ export const logoutUser = async () => {
     toast.error(message)
   }
 }
+
+export const forgotPassword = async (userData: { email: string }) => {
+  console.log('forgot test')
+
+  try {
+    const response = await axios.post(
+      `http://localhost:4000/v1/users/forgot-pass`,
+      userData
+    )
+    toast.success(response.data.message)
+  } catch (error: any) {
+    const message =
+      (error.response?.data && error.response.data.message) ||
+      error.message ||
+      error.toString()
+
+    toast.error(message)
+  }
+}
+
+export const resetPassword = async (
+  userData: { password: string },
+  resetToken: string
+) => {
+  console.log('forgot test')
+
+  try {
+    const response = await axios.put(
+      `http://localhost:4000/v1/users/reset-pass/${resetToken}`,
+      userData
+    )
+    return response.data
+  } catch (error: any) {
+    const message =
+      (error.response?.data && error.response.data.message) ||
+      error.message ||
+      error.toString()
+
+    toast.error(message)
+  }
+}

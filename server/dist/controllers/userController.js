@@ -187,7 +187,7 @@ exports.forgotPassword = (0, asyncWrapper_1.asyncWrapper)((req, res) => __awaite
         createdAt: Date.now(),
         expiresAt: Date.now() + 1000 * 60 * 30,
     });
-    const resetUrl = `${process.env.FRONT_URL}/resetpassword/${resetToken}`;
+    const resetUrl = `${process.env.FRONT_URL}/reset/${resetToken}`;
     const message = `<h2>Hello ${user.name}</h2>,
 
    <p> Somebody requested a new password for the [customer portal] account associated with ${user.email}.</p>
