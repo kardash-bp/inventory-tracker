@@ -18,3 +18,12 @@ export interface IInitState {
   user: IUser
   userId: string
 }
+export type TProduct = {
+  name: string
+  category: string
+  quantity: string
+  description: string
+  price: string
+  sku: string | 'SKU'
+  userId: string
+}

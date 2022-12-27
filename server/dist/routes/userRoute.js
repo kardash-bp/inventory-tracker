@@ -13,6 +13,7 @@ router.post('/register', (0, asyncWrapper_1.asyncWrapper)(userController_1.regis
 router.post('/login', (0, asyncWrapper_1.asyncWrapper)(userController_1.login));
 router.get('/logout', (0, asyncWrapper_1.asyncWrapper)(userController_1.logout));
 router.get('/one', auth_1.authToken, userController_1.getUser);
+router.get('/auth', auth_1.authToken, userController_1.isAuth);
 router.get('/all', auth_1.authToken, userController_1.getUsers);
 router.patch('/update', auth_1.authToken, userController_1.updateUser);
 router.patch('/change-pass', auth_1.authToken, userController_1.changePassword);

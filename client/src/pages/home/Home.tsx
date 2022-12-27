@@ -3,8 +3,15 @@ import { Link } from 'react-router-dom'
 import { MdOutlineInventory } from 'react-icons/md'
 import heroImg from '../../assets/hero1.png'
 import './Home.scss'
-import { useAppSelector } from '../../redux/store'
+import { useAppDispatch, useAppSelector } from '../../redux/store'
+import { useIsAuth } from '../../hooks/useIsAuth'
+import { setLoggedIn } from '../../redux/features/authSlice'
 const Home = () => {
+  const dispatch = useAppDispatch()
+  const isAuth = useIsAuth()
+  if (isAuth) {
+    dispatch(setLoggedIn(isAuth))
+  }
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
 
   return (

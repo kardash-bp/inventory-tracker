@@ -110,3 +110,7 @@ export const resetPassword = async (
     toast.error(message)
   }
 }
+export const isAuthenticated = async () => {
+  const res = await axios.get(`http://localhost:4000/v1/users/auth`)
+  return res.data
+}

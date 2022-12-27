@@ -10,6 +10,7 @@ import {
   forgotPassword,
   resetPassword,
   contactUs,
+  isAuth,
 } from '../controllers/userController'
 import { asyncWrapper } from '../utils/asyncWrapper'
 import { authToken } from '../utils/auth'
@@ -21,6 +22,7 @@ router.post('/register', asyncWrapper(register))
 router.post('/login', asyncWrapper(login))
 router.get('/logout', asyncWrapper(logout))
 router.get('/one', authToken, getUser)
+router.get('/auth', authToken, isAuth)
 router.get('/all', authToken, getUsers)
 router.patch('/update', authToken, updateUser)
 router.patch('/change-pass', authToken, changePassword)

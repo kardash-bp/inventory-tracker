@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState, FormEvent } from 'react'
+import React, { ChangeEvent, useState, FormEvent, useEffect } from 'react'
 import './auth.scss'
 import { BiLogIn } from 'react-icons/bi'
 import Card from '../../components/card/Card'
@@ -9,6 +9,7 @@ import { emailValidation } from '../../utils/emailValidation'
 import { loginUser } from '../../services/authService'
 import { setLoggedIn, setName } from '../../redux/features/authSlice'
 import Loader from '../../components/loader/Loader'
+import { useIsAuth } from '../../hooks/useIsAuth'
 
 const initState = {
   email: '',
@@ -16,8 +17,10 @@ const initState = {
 }
 
 const Login = () => {
-  const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const isAuth = useIsAuth()
+
+  const dispatch = useAppDispatch()
   const [isLoading, setIsLoading] = useState(false)
   const [userData, setUserData] = useState(initState)
   const { email, password } = userData
@@ -52,7 +55,11 @@ const Login = () => {
       return toast.error('Registration problem, please try again!')
     }
   }
-
+  useEffect(() => {
+    if (isAuth) {
+      navigate('/dash')
+    }
+  })
   return (
     <div className='container auth'>
       {isLoading && <Loader />}

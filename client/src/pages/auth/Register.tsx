@@ -9,6 +9,7 @@ import { registerUser } from '../../services/authService'
 import { useAppDispatch } from '../../redux/store'
 import { setLoggedIn, setName } from '../../redux/features/authSlice'
 import Loader from '../../components/loader/Loader'
+import { useIsAuth } from '../../hooks/useIsAuth'
 const initState = {
   name: '',
   email: '',
@@ -18,9 +19,14 @@ const initState = {
 const Register = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const isAuth = useIsAuth()
+  if (isAuth) {
+    navigate('/dash')
+  }
   const [isLoading, setIsLoading] = useState(false)
   const [userData, setUserData] = useState(initState)
   const { name, email, password, password2 } = userData
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUserData((perv) => ({ ...perv, [e.target.name]: e.target.value }))
   }

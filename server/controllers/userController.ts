@@ -290,3 +290,6 @@ export const resetPassword = asyncWrapper(
     res.status(HttpCode.OK).send('Reset Password change successful')
   }
 )
+export const isAuth = (req: Request, res: any) => {
+  res.status(HttpCode.OK).json({ user: req.user, isAuth: req.authenticated })
+}

@@ -17,6 +17,7 @@ import axios from 'axios'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { useAppSelector } from './redux/store'
+import AddProduct from './pages/addProduct/AddProduct'
 
 axios.defaults.withCredentials = true
 
@@ -44,6 +45,16 @@ function App() {
               <Sidebar>
                 <Layout>
                   <Dashboard />
+                </Layout>
+              </Sidebar>
+            }
+          />
+          <Route
+            path='/add-product'
+            element={
+              <Sidebar>
+                <Layout>
+                  <AddProduct />
                 </Layout>
               </Sidebar>
             }

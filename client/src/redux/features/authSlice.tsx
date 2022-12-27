@@ -27,6 +27,7 @@ const authSlice = createSlice({
       state.name = action.payload
     },
     saveUser(state, action) {
+      state.userId = action.payload._id
       state.user = { ...action.payload }
     },
     logout(state, action) {

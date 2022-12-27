@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.resetPassword = exports.contactUs = exports.forgotPassword = exports.changePassword = exports.updateUser = exports.getUsers = exports.getUser = exports.logout = exports.login = exports.register = void 0;
+exports.isAuth = exports.resetPassword = exports.contactUs = exports.forgotPassword = exports.changePassword = exports.updateUser = exports.getUsers = exports.getUser = exports.logout = exports.login = exports.register = void 0;
 const node_crypto_1 = __importDefault(require("node:crypto"));
 const cryptoHashString_1 = __importDefault(require("../utils/cryptoHashString"));
 const errorHandler_1 = require("../errors/errorHandler");
@@ -284,3 +284,7 @@ exports.resetPassword = (0, asyncWrapper_1.asyncWrapper)((req, res, next) => __a
     yield user.save();
     res.status(errorHandler_1.HttpCode.OK).send('Reset Password change successful');
 }));
+const isAuth = (req, res) => {
+    res.status(errorHandler_1.HttpCode.OK).json({ user: req.user, isAuth: req.authenticated });
+};
+exports.isAuth = isAuth;
