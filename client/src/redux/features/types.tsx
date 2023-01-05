@@ -19,6 +19,7 @@ export interface IInitState {
   userId: string
 }
 export type TProduct = {
+  _id: string
   name: string
   category: string
   quantity: string

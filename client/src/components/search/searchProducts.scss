@@ -1,0 +1,26 @@
+.s-search {
+  margin: 5px 0;
+  position: relative;
+  flex: 1;
+}
+.s-icon {
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+}
+
+.s-search > input[type='text'] {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 300;
+  padding: 1rem;
+  padding-left: 4rem;
+  margin: 1rem auto;
+  width: 100%;
+  background-color: var(--dark-blue);
+  color: var(--color-white);
+  border: 1px solid var(--color-grey);
+  border-radius: 5px;
+  outline: none;
+}
