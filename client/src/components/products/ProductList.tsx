@@ -1,17 +1,13 @@
 import { useState, ChangeEvent, useEffect } from 'react'
 import { TProduct } from '../../redux/features/types'
-import { truncate } from '../../utils/truncate'
 import Loader from '../loader/Loader'
-import {
-  AiOutlineFolderView,
-  AiOutlineEdit,
-  AiFillDelete,
-} from 'react-icons/ai'
+
 import './productList.scss'
 import Search from '../search/Search'
 import { useDispatch } from 'react-redux'
 import { useAppSelector } from '../../redux/store'
 import { searchProducts } from '../../redux/features/searchSlice'
+import ProductsPagination from './ProductsPagination'
 type TProductList = {
   products: TProduct[]
   isLoading: boolean
@@ -44,38 +40,11 @@ const ProductList = ({ products, isLoading }: TProductList) => {
         {isLoading && <Loader />}
         <div className='table'>
           {!isLoading && products.length === 0 ? (
-            <p>No product were found. Please add some...</p>
+            <p>No product were found. </p>
           ) : (
-            <table>
-              <thead>
-                <tr>
-                  <th>sn</th>
-                  <th>Name</th>
-                  <th>Category</th>
-                  <th>Price</th>
-                  <th>Qty.</th>
-                  <th>Value</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredProducts.map((p, index) => (
-                  <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td>{truncate(p.name, 15)}</td>
-                    <td>{p.category}</td>
-                    <td>{p.price} &euro;</td>
-                    <td>{p.quantity}</td>
-                    <td>{+p.price * +p.quantity} &euro;</td>
-                    <td className='--flex-between'>
-                      <AiOutlineFolderView size={22} color={'#007bff'} />
-                      <AiOutlineEdit size={22} color={'#7abe42'} />
-                      <AiFillDelete size={22} color={'#e22030'} />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <>
+              <ProductsPagination items={filteredProducts} itemsPerPage={2} />
+            </>
           )}
         </div>
       </div>
