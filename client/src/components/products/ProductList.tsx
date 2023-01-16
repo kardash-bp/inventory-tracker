@@ -43,7 +43,7 @@ const ProductList = ({ products, isLoading }: TProductList) => {
             <p>No product were found. </p>
           ) : (
             <>
-              <ProductsPagination items={filteredProducts} itemsPerPage={2} />
+              <ProductsPagination items={filteredProducts} itemsPerPage={3} />
             </>
           )}
         </div>

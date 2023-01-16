@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import ProductList from '../../components/products/ProductList'
+import ProductSummary from '../../components/products/ProductSummary'
 import { allProducts } from '../../redux/features/productSlice'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
 
@@ -21,7 +22,7 @@ const Dashboard = () => {
   }, [isLoggedIn, isError, message, dispatch])
   return (
     <div>
-      <h2>Dashboard</h2>
+      <ProductSummary products={products} />
       <ProductList products={products} isLoading={isLoading} />
     </div>
   )

@@ -1,6 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { toast } from 'react-toastify'
-import { createProduct, getProducts } from '../../services/productService'
+import {
+  createProduct,
+  deleteProduct,
+  getProducts,
+} from '../../services/productService'
 import { TProduct } from './types'
 
 type TProductsState = {
@@ -10,6 +14,8 @@ type TProductsState = {
   isSuccess: boolean
   isLoading: boolean
   message: string
+  total: number
+  unavailable: number
 }
 
 const initialState = {
@@ -19,6 +25,8 @@ const initialState = {
   isSuccess: false,
   isLoading: false,
   message: '',
+  total: 0,
+  unavailable: 0,
 } as TProductsState
 export const newProduct = createAsyncThunk(
   'product/create',
@@ -52,12 +60,44 @@ export const allProducts = createAsyncThunk(
     }
   }
 )
+export const delProduct = createAsyncThunk(
+  'product/delete',
+  async (id: string, thunkAPI) => {
+    try {
+      return await deleteProduct(id)
+    } catch (error: any) {
+      const message =
+        (error.response?.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+
+      console.log(message)
+      return thunkAPI.rejectWithValue(message)
+    }
+  }
+)
 const productSlice = createSlice({
   name: 'product',
   initialState,
   reducers: {
-    setProducts(state, action) {
-      console.log('all products')
+    setTotal(state, action) {
+      state.total = action.payload.reduce(
+        (acc: number, cur: TProduct) =>
+          acc + Number(cur.price) * Number(cur.quantity),
+        0
+      )
+    },
+    setUnavailable(state, action) {
+      state.unavailable = action.payload.reduce(
+        (acc: number, cur: TProduct) => {
+          if (Number(cur.quantity) === 0) {
+            return acc + 1
+          } else {
+            return acc
+          }
+        },
+        0
+      )
     },
   },
   extraReducers: (builder) => {
@@ -94,9 +134,24 @@ const productSlice = createSlice({
       state.message = action.payload as string
       toast.error(`${action.payload}`)
     })
+    builder.addCase(delProduct.pending, (state) => {
+      state.isLoading = true
+    })
+    builder.addCase(delProduct.fulfilled, (state, action) => {
+      state.isLoading = false
+      state.isSuccess = true
+      state.isError = false
+      toast.success('Product deleted successfully.')
+    })
+    builder.addCase(delProduct.rejected, (state, action) => {
+      state.isLoading = false
+      state.isError = true
+      state.message = action.payload as string
+      toast.error(`${action.payload}`)
+    })
   },
 })
 
-export const { setProducts } = productSlice.actions
+export const { setTotal, setUnavailable } = productSlice.actions
 
 export default productSlice.reducer

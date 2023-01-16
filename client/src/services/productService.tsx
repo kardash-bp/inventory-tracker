@@ -30,3 +30,17 @@ export const getProducts = async () => {
     toast.error(message)
   }
 }
+export const deleteProduct = async (id: string) => {
+  try {
+    const res = await axios.delete(`http://localhost:4000/v1/products/${id}`)
+    console.log(res.data)
+    return res.data
+  } catch (error: any) {
+    const message =
+      (error.response?.data && error.response.data.message) ||
+      error.message ||
+      error.toString()
+
+    toast.error(message)
+  }
+}
