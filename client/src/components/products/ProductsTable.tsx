@@ -1,17 +1,18 @@
-import React, { useEffect } from 'react'
 import {
   AiOutlineFolderView,
   AiOutlineEdit,
   AiFillDelete,
 } from 'react-icons/ai'
 import { truncate } from '../../utils/truncate'
-
+import './productsTable.scss'
 import { TProduct } from '../../redux/features/types'
 import { useAppDispatch } from '../../redux/store'
 import { allProducts, delProduct } from '../../redux/features/productSlice'
+import { useNavigate } from 'react-router-dom'
 const ProductsTable = ({ products }: { products: TProduct[] }) => {
   const dispatch = useAppDispatch()
-  const handleDelete = (id: string) => async () => {
+  const navigate = useNavigate()
+  const handleDelete = async (id: string) => {
     await dispatch(delProduct(id))
     await dispatch(allProducts())
   }
@@ -39,12 +40,22 @@ const ProductsTable = ({ products }: { products: TProduct[] }) => {
             <td>{p.quantity}</td>
             <td>{+p.price * +p.quantity} &euro;</td>
             <td className='--flex-between'>
-              <AiOutlineFolderView size={22} color={'#007bff'} />
-              <AiOutlineEdit size={22} color={'#7abe42'} />
+              <AiOutlineFolderView
+                className='iconBtn'
+                size={22}
+                color={'#007bff'}
+                onClick={() => navigate(`/product-detail/${p._id}`)}
+              />
+              <AiOutlineEdit className='iconBtn' size={22} color={'#7abe42'} />
               <AiFillDelete
+                className='iconBtn'
                 size={22}
                 color={'#e22030'}
-                onClick={handleDelete(p._id)}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  window.confirm(`Are you sure you wish to delete ${p.name}`) &&
+                    handleDelete(p._id)
+                }}
               />
             </td>
           </tr>

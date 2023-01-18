@@ -27,4 +27,11 @@ export type TProduct = {
   price: string
   sku: string | 'SKU'
   userId: string
+  image: TFile
+}
+type TFile = {
+  fileName: string
+  filePath: string
+  fileType: string
+  fileSize: string
 }

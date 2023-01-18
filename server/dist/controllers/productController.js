@@ -27,6 +27,7 @@ exports.addProduct = (0, asyncWrapper_1.asyncWrapper)((req, res) => __awaiter(vo
             description: 'Please make sure all fields are filled in correctly.',
         });
     }
+    console.log(req.file);
     let fileData = {};
     if (req.file) {
         // upload to cloudinary
@@ -38,6 +39,7 @@ exports.addProduct = (0, asyncWrapper_1.asyncWrapper)((req, res) => __awaiter(vo
             fileSize: (0, fileSizeFormatter_1.fileSizeFormatter)(req.file.size, 2),
         };
     }
+    console.log(fileData);
     const product = yield productModel_1.default.create({
         user: (_a = req.user) === null || _a === void 0 ? void 0 : _a._id,
         name,

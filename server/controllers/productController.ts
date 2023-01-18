@@ -14,6 +14,7 @@ export const addProduct = asyncWrapper(
         description: 'Please make sure all fields are filled in correctly.',
       })
     }
+    console.log(req.file)
 
     let fileData = {}
     if (req.file) {
@@ -27,6 +28,7 @@ export const addProduct = asyncWrapper(
         fileSize: fileSizeFormatter(req.file.size, 2),
       }
     }
+    console.log(fileData)
 
     const product = await Product.create({
       user: req.user?._id,
@@ -59,6 +61,7 @@ export const getAllProducts = asyncWrapper(
         description: 'Not found.',
       })
     }
+
     res.status(HttpCode.OK).json(products)
   }
 )

@@ -39,7 +39,7 @@ const ProductForm = () => {
 
   const dispatch = useAppDispatch()
   const [product, setProduct] = useState(initialState)
-  const [image, setImage] = useState('')
+  const [image, setImage] = useState<any>()
   const [imgPreview, setImgPreview] = useState('')
   const [desc, setDesc] = useState('')
   const { name, category, quantity, price } = product
@@ -48,8 +48,10 @@ const ProductForm = () => {
     setProduct((perv) => ({ ...perv, [e.target.name]: e.target.value }))
   }
   const handleImgChange = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.files![0])
+
     if (e.target.files !== null) {
-      setImage(URL.createObjectURL(e.target.files[0]))
+      setImage(e.target.files[0])
       setImgPreview(URL.createObjectURL(e.target.files[0]))
     }
   }
@@ -68,10 +70,10 @@ const ProductForm = () => {
     formData.append('price', price)
     formData.append('description', desc)
     formData.append('image', image)
-    // console.log(formData)
     await dispatch(newProduct(formData))
     navigate('/dash')
   }
+
   return (
     <div className='add-product'>
       <Card>
@@ -113,11 +115,7 @@ const ProductForm = () => {
           <Card cardClass={'group'}>
             <label>Product Image</label>
             <code>Supported Formats: jpg, jpeg, png</code>
-            <input
-              type='file'
-              name='image'
-              onChange={(e) => handleImgChange(e)}
-            />
+            <input type='file' name='image' onChange={handleImgChange} />
             {imgPreview !== null ? (
               <div className='image-preview'>
                 <img src={imgPreview} alt='product' />

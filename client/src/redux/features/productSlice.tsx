@@ -3,6 +3,7 @@ import { toast } from 'react-toastify'
 import {
   createProduct,
   deleteProduct,
+  getProduct,
   getProducts,
 } from '../../services/productService'
 import { TProduct } from './types'
@@ -76,6 +77,22 @@ export const delProduct = createAsyncThunk(
     }
   }
 )
+export const getSingleProduct = createAsyncThunk(
+  'product/get',
+  async (id: string, thunkAPI) => {
+    try {
+      return await getProduct(id)
+    } catch (error: any) {
+      const message =
+        (error.response?.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+
+      console.log(message)
+      return thunkAPI.rejectWithValue(message)
+    }
+  }
+)
 const productSlice = createSlice({
   name: 'product',
   initialState,
@@ -125,7 +142,6 @@ const productSlice = createSlice({
       state.isLoading = false
       state.isSuccess = true
       state.isError = false
-      console.log(action.payload)
       state.products = action.payload
     })
     builder.addCase(allProducts.rejected, (state, action) => {
@@ -144,6 +160,21 @@ const productSlice = createSlice({
       toast.success('Product deleted successfully.')
     })
     builder.addCase(delProduct.rejected, (state, action) => {
+      state.isLoading = false
+      state.isError = true
+      state.message = action.payload as string
+      toast.error(`${action.payload}`)
+    })
+    builder.addCase(getSingleProduct.pending, (state) => {
+      state.isLoading = true
+    })
+    builder.addCase(getSingleProduct.fulfilled, (state, action) => {
+      state.isLoading = false
+      state.isSuccess = true
+      state.isError = false
+      state.product = action.payload
+    })
+    builder.addCase(getSingleProduct.rejected, (state, action) => {
       state.isLoading = false
       state.isError = true
       state.message = action.payload as string

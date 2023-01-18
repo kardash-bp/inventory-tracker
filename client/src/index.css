@@ -139,8 +139,8 @@ h3,
 h4 {
   font-weight: 500;
   line-height: 1.2;
-  color: var(--color-yellow);
-  display: inline;
+  color: var(--color-grey);
+  display: block;
   margin-bottom: 1rem;
 }
 h1 {
