@@ -59,3 +59,19 @@ export const getProduct = async (id: string) => {
     toast.error(message)
   }
 }
+export const updateProduct = async (id: string, data: TProduct) => {
+  try {
+    const res = await axios.patch(
+      `http://localhost:4000/v1/products/${id}`,
+      data
+    )
+    return res.data
+  } catch (error: any) {
+    const message =
+      (error.response?.data && error.response.data.message) ||
+      error.message ||
+      error.toString()
+
+    toast.error(message)
+  }
+}

@@ -9,7 +9,7 @@ const AddProduct = () => {
     <div>
       {isLoading && <Loader />}
       <h3>Add Product</h3>
-      <ProductForm />
+      <ProductForm flag='add' id='' />
     </div>
   )
 }

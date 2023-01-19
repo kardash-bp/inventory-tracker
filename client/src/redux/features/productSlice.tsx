@@ -5,6 +5,7 @@ import {
   deleteProduct,
   getProduct,
   getProducts,
+  updateProduct,
 } from '../../services/productService'
 import { TProduct } from './types'
 
@@ -82,6 +83,22 @@ export const getSingleProduct = createAsyncThunk(
   async (id: string, thunkAPI) => {
     try {
       return await getProduct(id)
+    } catch (error: any) {
+      const message =
+        (error.response?.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+
+      console.log(message)
+      return thunkAPI.rejectWithValue(message)
+    }
+  }
+)
+export const updProduct = createAsyncThunk(
+  'product/update',
+  async ({ id, formData }: { id: string; formData: any }, thunkAPI) => {
+    try {
+      return await updateProduct(id, formData)
     } catch (error: any) {
       const message =
         (error.response?.data && error.response.data.message) ||
@@ -175,6 +192,22 @@ const productSlice = createSlice({
       state.product = action.payload
     })
     builder.addCase(getSingleProduct.rejected, (state, action) => {
+      state.isLoading = false
+      state.isError = true
+      state.message = action.payload as string
+      toast.error(`${action.payload}`)
+    })
+    builder.addCase(updProduct.pending, (state) => {
+      state.isLoading = true
+    })
+    builder.addCase(updProduct.fulfilled, (state, action) => {
+      state.isLoading = false
+      state.isSuccess = true
+      state.isError = false
+      state.product = action.payload
+      toast.success('Product updated successfully.')
+    })
+    builder.addCase(updProduct.rejected, (state, action) => {
       state.isLoading = false
       state.isError = true
       state.message = action.payload as string

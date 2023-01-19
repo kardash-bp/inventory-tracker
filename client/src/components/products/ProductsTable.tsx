@@ -46,7 +46,12 @@ const ProductsTable = ({ products }: { products: TProduct[] }) => {
                 color={'#007bff'}
                 onClick={() => navigate(`/product-detail/${p._id}`)}
               />
-              <AiOutlineEdit className='iconBtn' size={22} color={'#7abe42'} />
+              <AiOutlineEdit
+                className='iconBtn'
+                size={22}
+                color={'#7abe42'}
+                onClick={() => navigate(`/edit-product/${p._id}`)}
+              />
               <AiFillDelete
                 className='iconBtn'
                 size={22}

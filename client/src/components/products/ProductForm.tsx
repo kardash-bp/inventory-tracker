@@ -1,11 +1,12 @@
-import { useState, ChangeEvent, FormEvent } from 'react'
+import { useState, useEffect, ChangeEvent, FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { newProduct } from '../../redux/features/productSlice'
-import { useAppDispatch } from '../../redux/store'
+import { newProduct, updProduct } from '../../redux/features/productSlice'
+import { useAppDispatch, useAppSelector } from '../../redux/store'
 import Card from '../card/Card'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import './productForm.scss'
+import { TProduct } from '../../redux/features/types'
 const initialState = {
   name: '',
   category: '',
@@ -34,9 +35,9 @@ const modules = {
     ['clean'],
   ],
 }
-const ProductForm = () => {
+const ProductForm = ({ flag, id }: { flag: 'add' | 'edit'; id: string }) => {
   const navigate = useNavigate()
-
+  const rdxProduct = useAppSelector((state) => state.product.product)
   const dispatch = useAppDispatch()
   const [product, setProduct] = useState(initialState)
   const [image, setImage] = useState<any>()
@@ -70,10 +71,21 @@ const ProductForm = () => {
     formData.append('price', price)
     formData.append('description', desc)
     formData.append('image', image)
-    await dispatch(newProduct(formData))
+    if (flag === 'add') {
+      await dispatch(newProduct(formData))
+    } else {
+      await dispatch(updProduct({ id, formData }))
+    }
     navigate('/dash')
   }
-
+  useEffect(() => {
+    if (flag === 'edit' && rdxProduct) {
+      setProduct(rdxProduct)
+      rdxProduct.image && setImage(rdxProduct.image)
+      rdxProduct.image && setImgPreview(rdxProduct.image.filePath)
+      setDesc(rdxProduct.description)
+    }
+  }, [flag, rdxProduct])
   return (
     <div className='add-product'>
       <Card>
@@ -128,7 +140,7 @@ const ProductForm = () => {
             type='submit'
             className='--btn --btn-primary --btn-block --mt'
           >
-            Add Product
+            {flag === 'add' ? 'Add Product' : 'Edit Product'}
           </button>
         </form>
       </Card>
