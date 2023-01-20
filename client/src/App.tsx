@@ -20,6 +20,8 @@ import { useAppSelector } from './redux/store'
 import AddProduct from './pages/addProduct/AddProduct'
 import ProductDetail from './components/products/ProductDetail'
 import EditProduct from './pages/editProduct/EditProduct'
+import Profile from './pages/profile/Profile'
+import EditProfile from './pages/profile/EditProfile'
 
 axios.defaults.withCredentials = true
 
@@ -77,6 +79,26 @@ function App() {
               <Sidebar>
                 <Layout>
                   <ProductDetail />
+                </Layout>
+              </Sidebar>
+            }
+          />
+          <Route
+            path='/profile'
+            element={
+              <Sidebar>
+                <Layout>
+                  <Profile />
+                </Layout>
+              </Sidebar>
+            }
+          />
+          <Route
+            path='/profile-update'
+            element={
+              <Sidebar>
+                <Layout>
+                  <EditProfile />
                 </Layout>
               </Sidebar>
             }

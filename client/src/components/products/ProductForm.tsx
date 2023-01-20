@@ -6,7 +6,7 @@ import Card from '../card/Card'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import './productForm.scss'
-import { TProduct } from '../../redux/features/types'
+//import { TProduct } from '../../redux/features/types'
 const initialState = {
   name: '',
   category: '',

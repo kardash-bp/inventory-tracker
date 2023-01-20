@@ -114,3 +114,23 @@ export const isAuthenticated = async () => {
   const res = await axios.get(`http://localhost:4000/v1/users/auth`)
   return res.data
 }
+
+export const singleUser = async () => {
+  try {
+    const response = await axios.get(
+      `http://localhost:4000/v1/users/one`,
+
+      {
+        withCredentials: true,
+      }
+    )
+    return response.data
+  } catch (error: any) {
+    const message =
+      (error.response?.data && error.response.data.message) ||
+      error.message ||
+      error.toString()
+
+    toast.error(message)
+  }
+}

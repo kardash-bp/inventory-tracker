@@ -17,6 +17,9 @@ export interface IInitState {
   name: string | ''
   user: IUser
   userId: string
+  isError: boolean
+  isLoading: boolean
+  isSuccess: boolean
 }
 export type TProduct = {
   _id: string

@@ -1,4 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { toast } from 'react-toastify'
+import { singleUser } from '../../services/authService'
 import { IInitState } from './types'
 
 const name = JSON.parse(localStorage.getItem('name')!)
@@ -13,8 +15,24 @@ const initialState = {
     photo: '',
   },
   userId: '',
+  isSuccess: false,
+  isError: false,
+  isLoading: false,
 } as IInitState
 
+export const getUser = createAsyncThunk('auth/getUser', async (_, thunkAPI) => {
+  try {
+    return await singleUser()
+  } catch (error: any) {
+    const message =
+      (error.response?.data && error.response.data.message) ||
+      error.message ||
+      error.toString()
+
+    console.log(message)
+    return thunkAPI.rejectWithValue(message)
+  }
+})
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -35,6 +53,22 @@ const authSlice = createSlice({
       state.name = action.payload
       state.userId = ''
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(getUser.pending, (state) => {
+      state.isLoading = true
+    })
+    builder.addCase(getUser.fulfilled, (state, action) => {
+      state.isLoading = false
+      state.isSuccess = true
+      state.isError = false
+      state.user = action.payload
+    })
+    builder.addCase(getUser.rejected, (state, action) => {
+      state.isLoading = false
+      state.isError = true
+      toast.error(`${action.payload}`)
+    })
   },
 })
 
