@@ -130,6 +130,7 @@ exports.updateUser = (0, asyncWrapper_1.asyncWrapper)((req, res) => __awaiter(vo
     if (req.body.email) {
         delete req.body.email;
     }
+    console.log(req.body);
     const updated = Object.assign(req.user, req.body);
     const id = updated._id.valueOf();
     const updatedUser = yield userModel_1.default.findByIdAndUpdate(id, updated, {
@@ -241,7 +242,7 @@ exports.contactUs = (0, asyncWrapper_1.asyncWrapper)((req, res, next) => __await
     const options = {
         subject: subject,
         message: message,
-        sendTo: '',
+        sendTo: process.env.EMAIL_TO,
         sendFrom: process.env.EMAIL_USER,
         replyTo: req.user.email,
     };

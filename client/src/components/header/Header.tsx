@@ -20,7 +20,7 @@ const Header = () => {
   return (
     <div className='--pad header'>
       <div className='--flex-end'>
-        <h4 className='--mr'>
+        <h4 className='--mr2'>
           <span className='--fw-thin'>Logged In: </span>
           <span className='--color-white'>{name}</span>
         </h4>
@@ -28,7 +28,6 @@ const Header = () => {
           Logout
         </button>
       </div>
-      <hr />
     </div>
   )
 }

@@ -12,6 +12,7 @@ import Login from './pages/auth/Login'
 import Register from './pages/auth/Register'
 import Reset from './pages/auth/Reset'
 import Dashboard from './pages/dashboard/Dashboard'
+import Summary from './pages/summary/Summary'
 import Home from './pages/home/Home'
 import axios from 'axios'
 import { ToastContainer } from 'react-toastify'
@@ -22,6 +23,7 @@ import ProductDetail from './components/products/ProductDetail'
 import EditProduct from './pages/editProduct/EditProduct'
 import Profile from './pages/profile/Profile'
 import EditProfile from './pages/profile/EditProfile'
+import Contact from './pages/contact/Contact'
 
 axios.defaults.withCredentials = true
 
@@ -49,6 +51,16 @@ function App() {
               <Sidebar>
                 <Layout>
                   <Dashboard />
+                </Layout>
+              </Sidebar>
+            }
+          />
+          <Route
+            path='/summary'
+            element={
+              <Sidebar>
+                <Layout>
+                  <Summary />
                 </Layout>
               </Sidebar>
             }
@@ -99,6 +111,16 @@ function App() {
               <Sidebar>
                 <Layout>
                   <EditProfile />
+                </Layout>
+              </Sidebar>
+            }
+          />
+          <Route
+            path='/contact-us'
+            element={
+              <Sidebar>
+                <Layout>
+                  <Contact />
                 </Layout>
               </Sidebar>
             }

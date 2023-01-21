@@ -21,7 +21,6 @@ export const createProduct = async (data: TProduct) => {
 export const getProducts = async () => {
   try {
     const res = await axios.get(`http://localhost:4000/v1/products/all`)
-    console.log(res.data)
     return res.data
   } catch (error: any) {
     const message =

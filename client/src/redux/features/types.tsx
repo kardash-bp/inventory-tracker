@@ -10,7 +10,7 @@ export interface IUser {
   email: string
   phone: string
   bio?: string
-  photo?: string
+  photo?: any
 }
 export interface IInitState {
   isLoggedIn: boolean

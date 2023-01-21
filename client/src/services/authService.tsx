@@ -134,3 +134,46 @@ export const singleUser = async () => {
     toast.error(message)
   }
 }
+export const editUser = async (user: IForm) => {
+  try {
+    const response = await axios.patch(
+      `http://localhost:4000/v1/users/update`,
+      user,
+
+      {
+        withCredentials: true,
+      }
+    )
+    return response.data
+  } catch (error: any) {
+    const message =
+      (error.response?.data && error.response.data.message) ||
+      error.message ||
+      error.toString()
+
+    toast.error(message)
+  }
+}
+
+export const contactUs = async (data: any) => {
+  try {
+    const response = await axios.post(
+      `http://localhost:4000/v1/users/contact-us`,
+      data,
+      {
+        withCredentials: true,
+      }
+    )
+    if (response.status === 200) {
+      toast.success(response.data.message)
+    }
+    return response.data
+  } catch (error: any) {
+    const message =
+      (error.response?.data && error.response.data.message) ||
+      error.message ||
+      error.toString()
+
+    toast.error(message)
+  }
+}

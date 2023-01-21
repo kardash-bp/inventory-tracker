@@ -1,11 +1,12 @@
 import { useState, useEffect, ChangeEvent, FormEvent } from 'react'
-import { getUser } from '../../redux/features/authSlice'
+import { getUser, updateUser } from '../../redux/features/authSlice'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
 import Loader from '../../components/loader/Loader'
 import { IUser } from '../../redux/features/types'
 
 import './profile.scss'
 import Card from '../../components/card/Card'
+import { useNavigate } from 'react-router-dom'
 
 const initialState = {
   name: '',
@@ -15,11 +16,11 @@ const initialState = {
   bio: '',
 } as IUser
 const EditProfile = () => {
+  const navigate = useNavigate()
   const isLoading = useAppSelector((state) => state.auth.isLoading)
   const user = useAppSelector((state) => state.auth.user)
   const dispatch = useAppDispatch()
   const [profile, setProfile] = useState(initialState)
-  // const [image, setImage] = useState<any>()
   const [imgPreview, setImgPreview] = useState(profile.photo)
 
   const handleChange = (
@@ -30,7 +31,7 @@ const EditProfile = () => {
   const handleImgChange = (e: ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.files![0])
     if (e.target.files !== null) {
-      // setProfile((prev) => ({ ...prev, photo: e.target.files[0] }))
+      setProfile((prev) => ({ ...prev, photo: e.target.files![0] }))
       setImgPreview(URL.createObjectURL(e.target.files[0]))
     }
   }
@@ -38,6 +39,9 @@ const EditProfile = () => {
     e.preventDefault()
 
     console.log(profile)
+
+    dispatch(updateUser(profile))
+    navigate('/profile')
   }
   useEffect(() => {
     dispatch(getUser())
@@ -53,11 +57,11 @@ const EditProfile = () => {
       {isLoading && <Loader />}
       {!user && <p>Something went wrong.</p>}
       <Card cardClass={'card'}>
-        <div className='profile-photo'>
+        <div>
           <img src={imgPreview} alt='user profile' />
           <label>
             Select New Photo{' '}
-            <input type='file' name='photo' onChange={handleImgChange} />
+            <input type='file' name='image' onChange={handleImgChange} />
           </label>
         </div>
         <div className='profile-data'>

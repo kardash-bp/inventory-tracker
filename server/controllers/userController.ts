@@ -123,6 +123,8 @@ export const updateUser = asyncWrapper(
     if (req.body.email) {
       delete req.body.email
     }
+    console.log(req.body)
+
     const updated = Object.assign(req.user!, req.body) as IUser
     const id = updated._id.valueOf()
     const updatedUser = await User.findByIdAndUpdate(id, updated, {
@@ -243,7 +245,7 @@ export const contactUs = asyncWrapper(
     const options = {
       subject: subject,
       message: message,
-      sendTo: '',
+      sendTo: process.env.EMAIL_TO,
       sendFrom: process.env.EMAIL_USER,
       replyTo: req.user!.email,
     } as IOptions

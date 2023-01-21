@@ -1,5 +1,6 @@
-import { FaTh, FaRegChartBar, FaCommentAlt } from 'react-icons/fa'
+import { FaUsers, FaCommentAlt, FaTable } from 'react-icons/fa'
 import { BiImageAdd } from 'react-icons/bi'
+import { TbSum } from 'react-icons/tb'
 import { IconBaseProps } from 'react-icons/lib'
 
 export type Item = {
@@ -24,8 +25,13 @@ export type ItemArr = {
 const menu: (Item | ItemArr)[] = [
   {
     title: 'Dashboard',
-    icon: <FaTh />,
+    icon: <FaTable />,
     path: '/dash',
+  },
+  {
+    title: 'Summary',
+    icon: <TbSum />,
+    path: '/summary',
   },
   {
     title: 'Add Product',
@@ -34,7 +40,7 @@ const menu: (Item | ItemArr)[] = [
   },
   {
     title: 'Account',
-    icon: <FaRegChartBar />,
+    icon: <FaUsers />,
     children: [
       {
         title: 'Profile',
@@ -47,7 +53,7 @@ const menu: (Item | ItemArr)[] = [
     ],
   },
   {
-    title: 'Report Bug',
+    title: 'Contact Us',
     icon: <FaCommentAlt />,
     path: '/contact-us',
   },

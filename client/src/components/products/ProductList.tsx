@@ -22,12 +22,8 @@ const ProductList = ({ products, isLoading }: TProductList) => {
   }, [products, search, dispatch])
   return (
     <div className='product-list'>
-      <hr />
       <div className='table'>
         <div className='--flex-between  --flex-dir-column'>
-          <span>
-            <h3>Inventory</h3>
-          </span>
           <span>
             <Search
               value={search}

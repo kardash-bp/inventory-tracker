@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { toast } from 'react-toastify'
-import { singleUser } from '../../services/authService'
+import { editUser, singleUser } from '../../services/authService'
 import { IInitState } from './types'
 
 const name = JSON.parse(localStorage.getItem('name')!)
@@ -33,6 +33,22 @@ export const getUser = createAsyncThunk('auth/getUser', async (_, thunkAPI) => {
     return thunkAPI.rejectWithValue(message)
   }
 })
+export const updateUser = createAsyncThunk(
+  'auth/updateUser',
+  async (user: any, thunkAPI) => {
+    try {
+      return await editUser(user)
+    } catch (error: any) {
+      const message =
+        (error.response?.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+
+      console.log(message)
+      return thunkAPI.rejectWithValue(message)
+    }
+  }
+)
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -65,6 +81,21 @@ const authSlice = createSlice({
       state.user = action.payload
     })
     builder.addCase(getUser.rejected, (state, action) => {
+      state.isLoading = false
+      state.isError = true
+      toast.error(`${action.payload}`)
+    })
+    builder.addCase(updateUser.pending, (state) => {
+      state.isLoading = true
+    })
+    builder.addCase(updateUser.fulfilled, (state, action) => {
+      state.isLoading = false
+      state.isSuccess = true
+      state.isError = false
+      state.user = action.payload
+      toast.success('User successfully updated')
+    })
+    builder.addCase(updateUser.rejected, (state, action) => {
       state.isLoading = false
       state.isError = true
       toast.error(`${action.payload}`)
