@@ -25,7 +25,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(logger)
 
-app.use('/uploads', express.static(join(__dirname, 'uploads')))
+app.use(express.static(join(__dirname, 'uploads')))
 
 app.use('/v1/users', userRouter)
 app.use('/v1/products', productRouter)

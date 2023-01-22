@@ -93,6 +93,7 @@ const authSlice = createSlice({
       state.isSuccess = true
       state.isError = false
       state.user = action.payload
+      state.name = action.payload.name
       toast.success('User successfully updated')
     })
     builder.addCase(updateUser.rejected, (state, action) => {

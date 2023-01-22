@@ -26,7 +26,7 @@ app.use((0, compression_1.default)());
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
 app.use(logger_1.logger);
-app.use('/uploads', express_1.default.static((0, path_1.join)(__dirname, 'uploads')));
+app.use(express_1.default.static((0, path_1.join)(__dirname, 'uploads')));
 app.use('/v1/users', userRoute_1.default);
 app.use('/v1/products', productRoute_1.default);
 app.use('/', (req, res) => {

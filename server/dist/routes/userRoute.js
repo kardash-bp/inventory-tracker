@@ -16,7 +16,7 @@ router.get('/logout', (0, asyncWrapper_1.asyncWrapper)(userController_1.logout))
 router.get('/one', auth_1.authToken, userController_1.getUser);
 router.get('/auth', auth_1.authToken, userController_1.isAuth);
 router.get('/all', auth_1.authToken, userController_1.getUsers);
-router.patch('/update', auth_1.authToken, uploadFile_1.upload.single('image'), userController_1.updateUser);
+router.patch('/update', auth_1.authToken, uploadFile_1.upload.single('photo'), userController_1.updateUser);
 router.patch('/change-pass', auth_1.authToken, userController_1.changePassword);
 router.post('/forgot-pass', userController_1.forgotPassword);
 router.put('/reset-pass/:token', userController_1.resetPassword);

@@ -68,7 +68,7 @@ const Register = () => {
             <TiUserAddOutline size={35} color='#999' />
           </div>
           <h2>Register</h2>
-          <form>
+          <form onSubmit={handleSubmit}>
             <input
               type='text'
               placeholder='Name'
@@ -101,11 +101,7 @@ const Register = () => {
               value={password2}
               onChange={(e) => handleChange(e)}
             />
-            <button
-              type='submit'
-              className='--btn --btn-primary --btn-block'
-              onClick={handleSubmit}
-            >
+            <button type='submit' className='--btn --btn-primary --btn-block'>
               Register
             </button>
           </form>

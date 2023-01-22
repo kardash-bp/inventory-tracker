@@ -1,3 +1,4 @@
+import { cloudinaryUpload } from './../utils/cloudinary'
 import { NextFunction, Request, Response } from 'express'
 import crypto from 'node:crypto'
 import hashString from '../utils/cryptoHashString'
@@ -124,8 +125,14 @@ export const updateUser = asyncWrapper(
       delete req.body.email
     }
     console.log(req.body)
+    console.log(req.file)
 
     const updated = Object.assign(req.user!, req.body) as IUser
+    let uploadedFile
+    if (req.file) {
+      uploadedFile = await cloudinaryUpload(req.file.path, 'inventracker')
+    }
+    updated.photo = uploadedFile?.secure_url
     const id = updated._id.valueOf()
     const updatedUser = await User.findByIdAndUpdate(id, updated, {
       new: true,
@@ -137,6 +144,8 @@ export const updateUser = asyncWrapper(
 
 export const changePassword = asyncWrapper(
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    console.log(req.body)
+
     const { oldPassword, newPassword } = req.body
     const user = await User.findById(req.user!._id)
     if (!user) {

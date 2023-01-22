@@ -69,9 +69,9 @@ const UserSchema = new Schema(
   }
 )
 UserSchema.pre('save', async function (next) {
-  if (this.isModified('password')) {
-    next()
-  }
+  // if (this.isModified('password')) {
+  //   next()
+  // }
   this.salt = v4()
   this.password = await crypto
     .createHmac('sha1', this.salt)

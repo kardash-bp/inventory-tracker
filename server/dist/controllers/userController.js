@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.isAuth = exports.resetPassword = exports.contactUs = exports.forgotPassword = exports.changePassword = exports.updateUser = exports.getUsers = exports.getUser = exports.logout = exports.login = exports.register = void 0;
+const cloudinary_1 = require("./../utils/cloudinary");
 const node_crypto_1 = __importDefault(require("node:crypto"));
 const cryptoHashString_1 = __importDefault(require("../utils/cryptoHashString"));
 const errorHandler_1 = require("../errors/errorHandler");
@@ -131,7 +132,13 @@ exports.updateUser = (0, asyncWrapper_1.asyncWrapper)((req, res) => __awaiter(vo
         delete req.body.email;
     }
     console.log(req.body);
+    console.log(req.file);
     const updated = Object.assign(req.user, req.body);
+    let uploadedFile;
+    if (req.file) {
+        uploadedFile = yield (0, cloudinary_1.cloudinaryUpload)(req.file.path, 'inventracker');
+    }
+    updated.photo = uploadedFile === null || uploadedFile === void 0 ? void 0 : uploadedFile.secure_url;
     const id = updated._id.valueOf();
     const updatedUser = yield userModel_1.default.findByIdAndUpdate(id, updated, {
         new: true,
@@ -139,6 +146,7 @@ exports.updateUser = (0, asyncWrapper_1.asyncWrapper)((req, res) => __awaiter(vo
     res.status(errorHandler_1.HttpCode.OK).json(updatedUser);
 }));
 exports.changePassword = (0, asyncWrapper_1.asyncWrapper)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.body);
     const { oldPassword, newPassword } = req.body;
     const user = yield userModel_1.default.findById(req.user._id);
     if (!user) {

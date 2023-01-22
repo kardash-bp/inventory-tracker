@@ -117,8 +117,29 @@ export const isAuthenticated = async () => {
 
 export const singleUser = async () => {
   try {
-    const response = await axios.get(
+    const { data } = await axios.get(
       `http://localhost:4000/v1/users/one`,
+
+      {
+        withCredentials: true,
+      }
+    )
+
+    return data
+  } catch (error: any) {
+    const message =
+      (error.response?.data && error.response.data.message) ||
+      error.message ||
+      error.toString()
+
+    toast.error(message)
+  }
+}
+export const editUser = async (user: IForm) => {
+  try {
+    const response = await axios.patch(
+      `http://localhost:4000/v1/users/update`,
+      user,
 
       {
         withCredentials: true,
@@ -134,11 +155,11 @@ export const singleUser = async () => {
     toast.error(message)
   }
 }
-export const editUser = async (user: IForm) => {
+export const changePass = async (oldPassword: string, newPassword: string) => {
   try {
     const response = await axios.patch(
-      `http://localhost:4000/v1/users/update`,
-      user,
+      `http://localhost:4000/v1/users/change-pass`,
+      { oldPassword, newPassword },
 
       {
         withCredentials: true,

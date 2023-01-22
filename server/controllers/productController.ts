@@ -14,7 +14,6 @@ export const addProduct = asyncWrapper(
         description: 'Please make sure all fields are filled in correctly.',
       })
     }
-    console.log(req.file)
 
     let fileData = {}
     if (req.file) {
