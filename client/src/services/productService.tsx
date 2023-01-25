@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosPromise } from 'axios'
 import { toast } from 'react-toastify'
 import { TProduct } from '../redux/features/types'
 
@@ -6,7 +6,10 @@ export const createProduct = async (data: TProduct) => {
   console.log(data)
 
   try {
-    const res = await axios.post(`http://localhost:4000/v1/products/add`, data)
+    const res = await axios.post<TProduct>(
+      `http://localhost:4000/v1/products/add`,
+      data
+    )
     console.log(res.data)
     return res.data
   } catch (error: any) {
@@ -20,7 +23,9 @@ export const createProduct = async (data: TProduct) => {
 }
 export const getProducts = async () => {
   try {
-    const res = await axios.get(`http://localhost:4000/v1/products/all`)
+    const res = await axios.get<TProduct[]>(
+      `http://localhost:4000/v1/products/all`
+    )
     return res.data
   } catch (error: any) {
     const message =
@@ -33,7 +38,9 @@ export const getProducts = async () => {
 }
 export const deleteProduct = async (id: string) => {
   try {
-    const res = await axios.delete(`http://localhost:4000/v1/products/${id}`)
+    const res = await axios.delete<{ message: string }>(
+      `http://localhost:4000/v1/products/${id}`
+    )
     console.log(res.data)
     return res.data
   } catch (error: any) {
@@ -47,7 +54,9 @@ export const deleteProduct = async (id: string) => {
 }
 export const getProduct = async (id: string) => {
   try {
-    const res = await axios.get(`http://localhost:4000/v1/products/${id}`)
+    const res = await axios.get<TProduct>(
+      `http://localhost:4000/v1/products/${id}`
+    )
     return res.data
   } catch (error: any) {
     const message =
